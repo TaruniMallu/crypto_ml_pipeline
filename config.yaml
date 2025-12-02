@@ -1,0 +1,26 @@
+# config.yaml — central settings for the crypto ML pipeline
+
+coins:
+  - BTCUSDT
+  - ETHUSDT
+  - SOLUSDT
+
+# Interval for OHLCV candles
+interval: "4h"
+
+# Raw data ingestion settings
+limit: 1000
+data_path: "data/raw"
+
+# Processed data settings
+processed_path: "data/processed"
+
+# Labeled data settings
+labeled_path: "data/processed_labeled"
+
+# Label creation settings
+labeling:
+  horizon: 6        # future return lookahead (6 candles)
+  pump_thr: 0.03    # +3% = pump
+  crash_thr: -0.03  # -3% = crash
+
