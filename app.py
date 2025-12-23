@@ -18,24 +18,23 @@ def health():
 def predict(req: PredictRequest):
     run_id = str(uuid.uuid4())[:8]
 
-    # Step 1: fetch latest candles
-    from src.utils.api import fetch_latest_klines
-
-    output_csv = f"data/new/{req.coin}_4h_new.csv"
-    fetch_latest_klines(req.coin, interval=req.interval, save_path=output_csv)
-
-    # Step 2: run prediction on new data
     cmd = [
         "python",
         "src/models/predict_model.py",
-        "--coin", req.coin,
-        "--input", output_csv
+        "--coin", req.coin
     ]
 
-    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(
+        cmd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        env=os.environ
+    )
     out, err = process.communicate()
 
     if process.returncode != 0:
+        # Print full traceback to the log for fast debugging
+        print("Error running predict_model.py:", err.decode())
         return {
             "status": "error",
             "error": err.decode()
