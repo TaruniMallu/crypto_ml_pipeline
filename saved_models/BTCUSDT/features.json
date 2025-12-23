@@ -1,0 +1,1 @@
+["open", "high", "low", "close", "volume", "quote_asset_volume", "number_of_trades", "taker_buy_base_asset_volume", "taker_buy_quote_asset_volume", "ignore", "return", "log_return", "volatility", "sma_14", "sma_50", "ema_14", "ema_50", "rsi", "macd", "macd_signal", "macd_hist", "bb_upper", "bb_lower", "bb_width", "future_return_6"]
