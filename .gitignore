@@ -1,3 +1,7 @@
 __pycache__/
 data/
 saved_models/
+
+touch data/new/.gitkeep
+touch data/predictions/.gitkeep
+
