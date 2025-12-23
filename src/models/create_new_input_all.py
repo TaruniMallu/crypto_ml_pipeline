@@ -14,26 +14,34 @@ interval = cfg.get("interval", "4h")
 
 for coin in coins:
     labeled_file = Path(f"data/processed_labeled/{coin}_{interval}_labeled.csv")
-    features_file = Path(f"saved_models/{coin}_features.json")
+
+    # NEW: features inside coin-specific folder
+    features_file = Path(f"saved_models/{coin}/features.json")
+
     new_file = Path(f"data/new/{coin}_{interval}_new.csv")
 
-    if not labeled_file.exists() or not features_file.exists():
-        print(f"[!] Missing files for {coin}, skipping...")
+    # Validate required files
+    if not labeled_file.exists():
+        print(f"[!] Missing labeled file for {coin}, skipping...")
+        continue
+
+    if not features_file.exists():
+        print(f"[!] Missing features.json for {coin} → expected at {features_file}, skipping...")
         continue
 
     # Load labeled data
     df = pd.read_csv(labeled_file)
 
-    # Load features
+    # Load chosen features
     with open(features_file, "r") as f:
         feature_cols = json.load(f)
 
-    # Keep all rows and only feature columns
+    # Extract only the feature columns
     df_new = df[feature_cols]
 
-    # Ensure directory exists
+    # Ensure output directory exists
     new_file.parent.mkdir(parents=True, exist_ok=True)
 
-    # Save new CSV
+    # Save
     df_new.to_csv(new_file, index=False)
     print(f"[✔] New input CSV saved → {new_file}")
