@@ -3,7 +3,6 @@ data/
 !data/processed_labeled/
 !data/processed_labeled/*
 !data/processed_labeled/*_labeled.csv
-saved_models/
 
 touch data/new/.gitkeep
 touch data/predictions/.gitkeep
